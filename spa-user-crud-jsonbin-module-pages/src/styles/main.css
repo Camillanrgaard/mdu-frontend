@@ -42,10 +42,6 @@ img {
   height: auto;
 }
 
-a {
-  cursor: pointer;
-}
-
 /* ---------- topbar styling ---------- */
 .topbar {
   background-color: var(--green);
