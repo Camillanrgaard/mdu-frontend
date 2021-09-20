@@ -3,19 +3,17 @@ let _users = [];
 let _selectedUserId;
 const _baseUrl = "https://api.jsonbin.io/v3/b/61138ef2d5667e403a3fb6a1";
 const _headers = {
-  "X-Master-Key": "$2b$10$Uf1lbMtIPrrWeneN3Wz6JuDcyBuOz.1LbHiUg32QexCCJz3nOpoS2",
-  "Content-Type": "application/json"
+  "X-Master-Key":
+    "$2b$10$Uf1lbMtIPrrWeneN3Wz6JuDcyBuOz.1LbHiUg32QexCCJz3nOpoS2",
+  "Content-Type": "application/json",
 };
 
 // ========== READ ==========
-
-/**
- * Fetchs person data from jsonbin
- */
+/*** Fetchs person data from jsonbin*/
 async function loadUsers() {
   const url = _baseUrl + "/latest"; // make sure to get the latest version
   const response = await fetch(url, {
-    headers: _headers
+    headers: _headers,
   });
   const data = await response.json();
   console.log(data);
@@ -24,9 +22,8 @@ async function loadUsers() {
 }
 loadUsers();
 
-/**
- * Appends users to the DOM
- * @param {Array} users 
+/***Appends users to the DOM
+ *@param {Array} users
  */
 function appendUsers(users) {
   let htmlTemplate = "";
@@ -60,7 +57,7 @@ async function createUser() {
   const newUser = {
     name: nameInput.value,
     mail: mailInput.value,
-    id: userId
+    id: userId,
   };
   // pushing the new user object to the _users array
   _users.push(newUser);
@@ -76,17 +73,17 @@ async function createUser() {
 // ========== UPDATE ==========
 
 /**
- * Finds a display selected user by given. 
- * @param id 
+ * Finds a display selected user by given.
+ * @param id
  */
 function selectUser(id) {
   _selectedUserId = id;
   // find user by given user id
-  const user = _users.find(user => user.id == _selectedUserId);
+  const user = _users.find((user) => user.id == _selectedUserId);
   // references to the input fields
-  let nameInput = document.querySelector('#name-update');
-  let mailInput = document.querySelector('#mail-update');
-  // set indout values with selected user values 
+  let nameInput = document.querySelector("#name-update");
+  let mailInput = document.querySelector("#mail-update");
+  // set indout values with selected user values
   nameInput.value = user.name;
   mailInput.value = user.mail;
   navigateTo("#/update");
@@ -101,7 +98,7 @@ async function updateUser() {
   const nameInput = document.querySelector("#name-update");
   const mailInput = document.querySelector("#mail-update");
   // find user to update by given user id
-  const userToUpdate = _users.find(user => user.id === _selectedUserId);
+  const userToUpdate = _users.find((user) => user.id === _selectedUserId);
   // update values of user in array
   userToUpdate.name = nameInput.value;
   userToUpdate.mail = mailInput.value;
@@ -117,25 +114,25 @@ async function updateUser() {
 // ========== DELETE ==========
 /**
  * Deletes user by given user id
- * @param id 
+ * @param id
  */
 async function deleteUser(id) {
   showLoader(true);
-  _users = _users.filter(user => user.id !== id);
+  _users = _users.filter((user) => user.id !== id);
   await updateJSONBIN(_users);
 }
 
 // ========== Services ==========
 /**
  * Updates the data source on jsonbin with a given users arrays
- * @param {Array} users 
+ * @param {Array} users
  */
 async function updateJSONBIN(users) {
   // put users array to jsonbin
   const response = await fetch(_baseUrl, {
     method: "PUT",
     headers: _headers,
-    body: JSON.stringify(users)
+    body: JSON.stringify(users),
   });
   // waiting for the result
   const result = await response.json(); // the new updated users array from jsonbin
@@ -147,10 +144,10 @@ async function updateJSONBIN(users) {
 // ========== Loader ==========
 /**
  * Shows or hides loader by giden parameter: true/false
- * @param {boolean} show 
+ * @param {boolean} show
  */
 function showLoader(show) {
-  const loader = document.querySelector('#loader');
+  const loader = document.querySelector("#loader");
   if (show) {
     loader.classList.remove("hide");
   } else {
